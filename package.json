@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "allure-commandline": "2.7.0",
+    "aws-sdk": "^2.327.0",
+    "elasticsearch": "^15.1.1",
+    "http-aws-es": "^6.0.0",
+    "minimist": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.0",
+    "@types/node": "^10.11.3",
+    "typescript": "^3.1.1"
+  },
+  "name": "@taskworld.com/test-indexer",
+  "version": "1.0.0",
+  "description": "Index test reports (JUnit, Allure) to AWS Elasticsearch",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thai Pangsakulyanont <org.yi.dttvb@gmail.com> (http://dt.in.th/)",
+  "license": "MIT"
+}
