@@ -67,6 +67,11 @@ PUT /testcases
         "uid": {"type": "keyword"},
         "name": {"type": "text"},
         "status": {"type": "keyword"},
+        "project": {"type": "keyword"},
+        "branch": {"type": "keyword"},
+        "commit": {"type": "keyword"},
+        "category": {"type": "keyword"},
+        "buildNumber": {"type": "integer"},
         "time": {
           "properties": {
             "start": {"type": "date"},

@@ -46,10 +46,24 @@ export async function processTestResults(
   const result: ProcessResult = {
     index: { testcases: {} },
   }
+  const context = {
+    project: options.project,
+    branch: options.branch,
+    commit: options.commit,
+    category: options.category,
+    buildNumber: options.buildNumber,
+  }
   for (const filename of testcases) {
     try {
       const data = JSON.parse(readFileSync(filename, 'utf8'))
-      result.index.testcases[data.uid] = data
+      const testcaseDoc = {
+        ...data,
+        ...context,
+      }
+      testcaseDoc.testStage = removeNestedSteps(testcaseDoc.testStage)
+      testcaseDoc.beforeStages = testcaseDoc.beforeStages.map(removeNestedSteps)
+      testcaseDoc.afterStages = testcaseDoc.beforeStages.map(removeNestedSteps)
+      result.index.testcases[data.uid] = testcaseDoc
     } catch (e) {
       console.error(
         'processTestResults(): Cannot process test case file',
@@ -59,4 +73,18 @@ export async function processTestResults(
     }
   }
   return result
+}
+
+function removeNestedSteps(stage: any) {
+  if (!stage) return stage
+  if (typeof stage !== 'object') return stage
+  if (!Array.isArray(stage.steps)) return stage
+  return {
+    ...stage,
+    steps: stage.steps.map((step: any) => {
+      const s = { ...step }
+      delete s.steps
+      return s
+    }),
+  }
 }
