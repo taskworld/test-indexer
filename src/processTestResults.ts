@@ -56,6 +56,12 @@ export async function processTestResults(
   for (const filename of testcases) {
     try {
       const data = JSON.parse(readFileSync(filename, 'utf8'))
+      if (!data.time.start) {
+        throw new Error(
+          'Missing timestamp in testcase data. ' +
+            '(Note that JUnit XML files do not contain this information and thus cannot be used.)'
+        )
+      }
       const testcaseDoc = {
         ...data,
         ...context,
