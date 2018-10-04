@@ -55,3 +55,27 @@ npx @taskworld/tw-test-indexer \
   --buildNumber="$CIRCLE_BUILD_NUM" \
   path/to/results/directory ...
 ```
+
+## Setting up an index
+
+```
+PUT /testcases
+{
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "uid": {"type": "keyword"},
+        "name": {"type": "text"},
+        "status": {"type": "keyword"},
+        "time": {
+          "properties": {
+            "start": {"type": "date"},
+            "stop": {"type": "date"},
+            "duration": {"type": "integer"}
+          }
+        }
+      }
+    }
+  }
+}
+```
