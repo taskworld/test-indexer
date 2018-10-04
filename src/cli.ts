@@ -57,7 +57,7 @@ async function main() {
           docIds.length
         )
         const body: any[] = []
-        for (const docId of Object.keys(docIdsThisChunk)) {
+        for (const docId of docIdsThisChunk) {
           body.push(
             { index: { _index: indexName, _id: docId, _type: '_doc' } },
             docs[docId]
