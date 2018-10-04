@@ -18,7 +18,7 @@
     "typescript": "^3.1.1"
   },
   "name": "@taskworld.com/test-indexer",
-  "version": "0.0.0-0",
+  "version": "0.0.0-1",
   "description": "Index test reports (JUnit, Allure) to AWS Elasticsearch",
   "main": "index.js",
   "directories": {
