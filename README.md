@@ -47,14 +47,20 @@ it’s Base64-encoded JSON-encoded object that looks like this:
 To run:
 
 ```sh
-npx @taskworld/tw-test-indexer \
+npx @taskworld.com/tw-test-indexer \
   --project=tw-test-indexer \
   --category=unit-tests \
   --branch="$(git rev-parse --abbrev-ref HEAD)" \
   --commit="$(git rev-parse HEAD)" \
   --buildNumber="$CIRCLE_BUILD_NUM" \
+  [--save="/tmp/result.json"]
+  [--index]
   path/to/results/directory ...
 ```
+
+- `--save` Saves the result to index into a JSON file. Useful for inspecting the
+  output.
+- `--index` Performs the actual index to Elasticsearch.
 
 ## Setting up an index
 

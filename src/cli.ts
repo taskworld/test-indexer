@@ -66,12 +66,20 @@ async function main() {
         await es.bulk({ body })
       }
     }
+  } else {
+    logger.warn(
+      'The result has not been indexed to Elasticsearch. ' +
+        'Supply `--index` option to index it.'
+    )
   }
-  logger.info('* Operation completed successfully')
+  logger.info('Operation completed successfully')
 }
 
 process.on('unhandledRejection', e => {
   throw e
 })
 
-main()
+main().catch(e => {
+  logger.error(e)
+  process.exitCode = 1
+})
