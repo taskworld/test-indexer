@@ -47,7 +47,7 @@ it’s Base64-encoded JSON-encoded object that looks like this:
 To run:
 
 ```sh
-npx @taskworld/tw-test-indexer \
+npx @taskworld.com/tw-test-indexer \
   --project=tw-test-indexer \
   --category=unit-tests \
   --branch="$(git rev-parse --abbrev-ref HEAD)" \
