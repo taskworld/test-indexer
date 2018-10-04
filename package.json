@@ -17,7 +17,7 @@
     "@types/pino": "^5.6.0",
     "typescript": "^3.1.1"
   },
-  "name": "@taskworld.com/test-indexer",
+  "name": "@taskworld.com/tw-test-indexer",
   "version": "0.0.0-1",
   "description": "Index test reports (JUnit, Allure) to AWS Elasticsearch",
   "main": "index.js",
