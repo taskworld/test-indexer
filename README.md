@@ -1,7 +1,7 @@
 # test-indexer
 
-A simple script to index test results (JUnit XML, Allure XML) to Elasticsearch.
-This allows us to analyze our test results across multiple projects and builds.
+A simple script to index Allure XML test results to Elasticsearch. This allows
+us to analyze our test results across multiple projects and builds.
 
 ## Problem to solve
 
@@ -22,7 +22,7 @@ process**, so that we can answer **key questions** like:
 
 ## The indexing process
 
-1. When tests are run, a results file is generated (Allure/JUnit XML files).
+1. When tests are run, a results file is generated (Allure XML files).
 
 2. We use [allure-commandline](https://www.npmjs.com/package/allure-commandline)
    to generate an HTML report. Inside the generated HTML reports are JSON files.
