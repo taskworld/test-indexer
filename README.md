@@ -53,8 +53,14 @@ npx @taskworld.com/tw-test-indexer \
   --branch="$(git rev-parse --abbrev-ref HEAD)" \
   --commit="$(git rev-parse HEAD)" \
   --buildNumber="$CIRCLE_BUILD_NUM" \
+  [--save="/tmp/result.json"]
+  [--index]
   path/to/results/directory ...
 ```
+
+- `--save` Saves the result to index into a JSON file. Useful for inspecting the
+  output.
+- `--index` Performs the actual index to Elasticsearch.
 
 ## Setting up an index
 
