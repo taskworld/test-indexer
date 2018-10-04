@@ -22,5 +22,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Thai Pangsakulyanont <org.yi.dttvb@gmail.com> (http://dt.in.th/)",
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "cli.js",
+    "lib"
+  ],
+  "bin": {
+    "tw-test-indexer": "./cli.js"
+  }
 }

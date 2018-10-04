@@ -45,3 +45,5 @@ Icon
 
 .env
 /lib/
+/private/
+allure-report

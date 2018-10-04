@@ -3,17 +3,27 @@ import { processTestResults } from './processTestResults'
 import { checkEnv } from './environment'
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ['process']
+  boolean: ['process'],
 })
 
 async function main() {
-  if (args.process) {
-    console.log('Processing test results...')
-    const env = checkEnv()
-    await processTestResults(args._)
-    return
+  console.log('Processing test results...')
+  const getArg = (name: string) => {
+    if (args[name] == null) {
+      throw new Error(`Required command line argument: --${name}`)
+    }
+    return String(args[name])
   }
-  throw new Error('What do you want to do?')
+  const dataToIndex = await processTestResults({
+    testResultsDirs: args._,
+    project: getArg('project'),
+    category: getArg('category'),
+    buildNumber: +getArg('buildNumber'),
+    commit: getArg('commit'),
+    branch: getArg('branch'),
+  })
+  console.log(dataToIndex)
+  // const env = await checkEnv()
 }
 
 process.on('unhandledRejection', e => {
