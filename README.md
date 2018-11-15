@@ -32,20 +32,6 @@ process**, so that we can answer **key questions** like:
 
 ## Running the tool
 
-Required environment variable: `TEST_INDEXER_SETTINGS`. This variable contains
-the information necessary to connect to our Elasticsearch cluster. Basically
-it’s Base64-encoded JSON-encoded object that looks like this:
-
-```json
-{
-  "endpoint": "https://domain.region.es.amazonaws.com/",
-  "accessKeyID": "AWSACCESSKEYIDHERE99",
-  "secretAccessKey": "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-}
-```
-
-To run:
-
 ```sh
 npx @taskworld.com/tw-test-indexer \
   --project=tw-test-indexer \
@@ -53,14 +39,13 @@ npx @taskworld.com/tw-test-indexer \
   --branch="$(git rev-parse --abbrev-ref HEAD)" \
   --commit="$(git rev-parse HEAD)" \
   --buildNumber="$CIRCLE_BUILD_NUM" \
-  [--save="/tmp/result.json"]
-  [--index]
+  --output="/tmp/result.ndjson"
   path/to/results/directory ...
 ```
 
-- `--save` Saves the result to index into a JSON file. Useful for inspecting the
-  output.
-- `--index` Performs the actual index to Elasticsearch.
+This will save a file at `/tmp/result.ndjson` which contains the NDJSON payload
+suitable for sending to Elasticsearch’s
+[Bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html).
 
 ## Setting up an index
 
