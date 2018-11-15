@@ -42,7 +42,7 @@ export async function processTestResults(
   execFileSync(allureCLI, ['generate', '--clean', ...options.testResultsDirs], {
     stdio: 'inherit',
   })
-  const testcases = glob.sync('allure-report/data/test-cases/*.json')
+  const testcases = glob.sync('allure-report/data/test-cases/*.json').sort()
   const result: ProcessResult = {
     index: { testcases: {} },
   }
