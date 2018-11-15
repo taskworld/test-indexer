@@ -72,7 +72,7 @@ export async function processTestResults(
       result.index.testcases[data.uid] = testcaseDoc
     } catch (e) {
       console.error(
-        'processTestResults(): Cannot process test case file',
+        'processTestResults(): Cannot process test case file "%s":',
         filename,
         e
       )
