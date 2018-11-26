@@ -47,6 +47,12 @@ This will save a file at `/tmp/result.ndjson` which contains the NDJSON payload
 suitable for sending to Elasticsearch’s
 [Bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html).
 
+## Publishing to npm
+
+```
+npm version X.Y.Z && git push --follow-tags && npm publish
+```
+
 ## Setting up an index
 
 ```
