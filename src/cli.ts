@@ -1,14 +1,10 @@
 import minimist from 'minimist'
 import { processTestResults } from './processTestResults'
-import { checkEnv } from './environment'
 import { writeFileSync } from 'fs'
-import Elasticsearch from 'elasticsearch'
-import AWS from 'aws-sdk'
 import { logger } from './logger'
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ['index'],
-  string: ['save'],
+  string: ['project', 'category', 'output', 'commit', 'branch'],
 })
 
 async function main() {
@@ -27,52 +23,27 @@ async function main() {
     commit: getArg('commit'),
     branch: getArg('branch'),
   })
-  if (args.save) {
-    logger.info('Saving processing results to', args.save)
-    writeFileSync(args.save, JSON.stringify(result, null, 2))
-  }
-  if (args.index) {
-    logger.info('Going to index the result...')
-    const env = await checkEnv()
-    const region = env.endpoint.match(/([^.]+)\.es\.amazonaws\.com/)![1]
-    AWS.config.update({
-      credentials: new AWS.Credentials(env.accessKeyID, env.secretAccessKey),
-      region: region,
-    })
-    const es = new Elasticsearch.Client({
-      hosts: [env.endpoint],
-      connectionClass: require('http-aws-es'),
-    })
-    for (const indexName of Object.keys(result.index)) {
-      const docs = result.index[indexName]
-      const docIds = Object.keys(docs)
-      const chunkSize = 100
-      for (let i = 0; i < docIds.length; i += chunkSize) {
-        const docIdsThisChunk = docIds.slice(i, i + chunkSize)
-        logger.info(
-          { indexName },
-          'Indexing %d docs (%d/%d)',
-          docIdsThisChunk.length,
-          i + docIdsThisChunk.length,
-          docIds.length
-        )
-        const body: any[] = []
-        for (const docId of docIdsThisChunk) {
-          body.push(
-            { index: { _index: indexName, _id: docId, _type: '_doc' } },
-            docs[docId]
-          )
-        }
-        await es.bulk({ body })
-      }
+  const outputPath = getArg('output')
+  logger.info('Saving processing results to', outputPath)
+  const outputData = [] as any[]
+  const stats = { docsCount: {} as { [indexName: string]: number } }
+  for (const indexName of Object.keys(result.index)) {
+    const docs = result.index[indexName]
+    const docIds = Object.keys(docs)
+    stats.docsCount[indexName] = docIds.length
+    for (const docId of docIds) {
+      outputData.push(
+        { index: { _index: indexName, _id: docId, _type: '_doc' } },
+        docs[docId]
+      )
     }
-  } else {
-    logger.warn(
-      'The result has not been indexed to Elasticsearch. ' +
-        'Supply `--index` option to index it.'
-    )
   }
-  logger.info('Operation completed successfully')
+  writeFileSync(
+    outputPath,
+    outputData.map(row => JSON.stringify(row) + '\n').join(''),
+    'utf8'
+  )
+  logger.info({ outputPath, stats }, 'Operation completed successfully')
 }
 
 process.on('unhandledRejection', e => {

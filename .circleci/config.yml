@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/tw-test-indexer
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:10-browsers
     steps:
       - checkout
       - restore_cache:
@@ -16,7 +16,13 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: test
+          name: test run
           command: |
-            ./scripts/generate-test-snapshot.sh
-            git diff --exit-code ./test/allure-demo.ndjson
+            ./cli.js \
+              --project=allure-demo \
+              --category=example \
+              --branch=master \
+              --commit=96a6408f1ab1884667881488be5e266481de0d98 \
+              --buildNumber=1 \
+              --output=/tmp/allure-demo.ndjson \
+              vendor/allure-demo/allure-results

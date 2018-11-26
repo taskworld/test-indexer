@@ -42,7 +42,7 @@ export async function processTestResults(
   execFileSync(allureCLI, ['generate', '--clean', ...options.testResultsDirs], {
     stdio: 'inherit',
   })
-  const testcases = glob.sync('allure-report/data/test-cases/*.json')
+  const testcases = glob.sync('allure-report/data/test-cases/*.json').sort()
   const result: ProcessResult = {
     index: { testcases: {} },
   }
@@ -72,7 +72,7 @@ export async function processTestResults(
       result.index.testcases[data.uid] = testcaseDoc
     } catch (e) {
       console.error(
-        'processTestResults(): Cannot process test case file',
+        'processTestResults(): Cannot process test case file "%s":',
         filename,
         e
       )
